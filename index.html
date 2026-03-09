@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Me & U 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:       #ff3d6e;
+      --pink2:      #ff6b9d;
+      --rose:       #ff0a54;
+      --peach:      #ffb347;
+      --lavender:   #c77dff;
+      --cream:      #fff5f7;
+      --deep:       #3a0020;
+    }
+
+    /* ── Animated gradient background ── */
+    body {
+      font-family: 'Quicksand', sans-serif;
+      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #ffecd2, #a18cd1, #fbc2eb);
+      background-size: 400% 400%;
+      animation: gradShift 8s ease infinite;
+    }
+
+    @keyframes gradShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── Orbs ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+      animation: orbDrift ease-in-out infinite alternate;
+    }
+    .orb1 { width:340px;height:340px;background:#ff6b9d;top:-80px;left:-80px;animation-duration:7s; }
+    .orb2 { width:280px;height:280px;background:#c77dff;bottom:-60px;right:-60px;animation-duration:9s; }
+    .orb3 { width:200px;height:200px;background:#ffb347;top:40%;left:60%;animation-duration:6s; }
+    .orb4 { width:160px;height:160px;background:#ff0a54;bottom:20%;left:10%;animation-duration:11s; }
+
+    @keyframes orbDrift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.12); }
+    }
+
+    /* ── Floating particles ── */
+    .particles {
+      position: fixed; inset: 0;
+      pointer-events: none; overflow: hidden; z-index: 1;
+    }
+    .p {
+      position: absolute; bottom: -40px;
+      animation: riseUp linear infinite;
+      will-change: transform, opacity;
+    }
+    @keyframes riseUp {
+      0%   { transform: translateY(0) rotate(0deg) scale(1);   opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.7; }
+      100% { transform: translateY(-105vh) rotate(360deg) scale(0.5); opacity: 0; }
+    }
+
+    /* ── Card ── */
+    .card {
+      position: relative; z-index: 10;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 36px;
+      padding: 48px 48px 44px;
+      width: min(94vw, 530px);
+      border: 2px solid rgba(255,255,255,0.9);
+      box-shadow:
+        0 0 0 1px rgba(255,100,150,0.15),
+        0 30px 80px rgba(180,0,60,0.18),
+        0 8px 20px rgba(255,60,110,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+      text-align: center;
+    }
+
+    @keyframes cardIn {
+      0%   { transform: scale(0.6) translateY(40px) rotate(-4deg); opacity: 0; }
+      60%  { transform: scale(1.04) translateY(-6px) rotate(1deg); opacity: 1; }
+      100% { transform: scale(1) translateY(0) rotate(0deg); opacity: 1; }
+    }
+    @keyframes cardOut {
+      0%   { transform: scale(1) translateY(0); opacity: 1; }
+      40%  { transform: scale(1.05) translateY(-10px); opacity: 0.7; }
+      100% { transform: scale(0.6) translateY(60px) rotate(5deg); opacity: 0; }
+    }
+
+    .anim-in  { animation: cardIn  0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .anim-out { animation: cardOut 0.38s cubic-bezier(0.55, 0, 1, 0.45) both; }
+
+    /* ── Step dots ── */
+    .steps {
+      display: flex; justify-content: center; gap: 10px; margin-bottom: 24px;
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,61,110,0.2);
+      transition: background 0.4s, transform 0.4s, box-shadow 0.4s;
+    }
+    .dot.active {
+      background: var(--pink);
+      transform: scale(1.6);
+      box-shadow: 0 0 10px rgba(255,61,110,0.6);
+    }
+    .dot.done { background: rgba(255,61,110,0.5); transform: scale(1.1); }
+
+    /* ── Image ── */
+    .img-wrap {
+      position: relative;
+      width: 200px; height: 200px;
+      margin: 0 auto 24px;
+    }
+
+    /* Glowing ring behind image */
+    .img-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #ff3d6e, #ffb347, #c77dff, #ff6b9d, #ff3d6e);
+      animation: spinRing 4s linear infinite;
+      z-index: -1;
+    }
+    .img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: white;
+      z-index: -1;
+    }
+
+    @keyframes spinRing {
+      to { transform: rotate(360deg); }
+    }
+
+    .card-img {
+      width: 200px; height: 200px;
+      object-fit: cover; border-radius: 50%;
+      display: block;
+      animation: float 3.5s ease-in-out infinite;
+      background: #ffd6e0;
+      position: relative; z-index: 1;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-12px) scale(1.02); }
+    }
+
+    .mood {
+      position: absolute;
+      bottom: 4px; right: 4px;
+      font-size: 2.2rem; line-height: 1;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+      animation: moodPop 0.5s 0.4s cubic-bezier(0.34,1.8,0.64,1) both;
+      z-index: 2;
+    }
+    @keyframes moodPop {
+      from { transform: scale(0) rotate(-30deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* ── Title ── */
+    h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.9rem;
+      background: linear-gradient(135deg, var(--rose), var(--pink2), var(--lavender));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 30px;
+      line-height: 1.3;
+      animation: titleShimmer 3s ease-in-out infinite;
+    }
+    @keyframes titleShimmer {
+      0%,100% { filter: brightness(1); }
+      50%      { filter: brightness(1.15); }
+    }
+
+    /* ── Buttons ── */
+    .btns { display: flex; justify-content: center; gap: 18px; }
+
+    button {
+      padding: 14px 38px; font-size: 1.05rem;
+      font-family: 'Quicksand', sans-serif; font-weight: 700;
+      border: none; border-radius: 50px; cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    /* Ripple shine on yes/hello */
+    .yes-btn::after, .hello-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -60%;
+      width: 50%; height: 200%;
+      background: rgba(255,255,255,0.35);
+      transform: skewX(-20deg) translateX(-100%);
+      transition: transform 0.5s;
+    }
+    .yes-btn:hover::after, .hello-btn:hover::after {
+      transform: skewX(-20deg) translateX(400%);
+    }
+
+    .yes-btn, .hello-btn {
+      background: linear-gradient(135deg, var(--rose), var(--pink), var(--pink2));
+      color: white;
+      box-shadow: 0 6px 24px rgba(255,61,110,0.5), 0 2px 8px rgba(255,61,110,0.3);
+    }
+    .yes-btn:hover, .hello-btn:hover {
+      transform: translateY(-3px) scale(1.07);
+      box-shadow: 0 12px 32px rgba(255,61,110,0.55), 0 4px 12px rgba(255,61,110,0.3);
+    }
+    .yes-btn:active, .hello-btn:active { transform: scale(0.95) translateY(0); }
+
+    /* ── No button — static by default, fixed only when fleeing ── */
+    .no-btn {
+      background: linear-gradient(135deg, #e0c8cc, #d4b8bc);
+      color: #7a4050;
+      position: static;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      transition: transform 0.4s ease, box-shadow 0.3s ease;
+    }
+    .no-btn.fleeing {
+      position: fixed;
+      z-index: 9999;
+      transition:
+        left 0.75s cubic-bezier(0.34, 1.5, 0.64, 1),
+        top  0.75s cubic-bezier(0.34, 1.5, 0.64, 1),
+        transform 0.4s ease,
+        opacity  0.3s ease,
+        box-shadow 0.3s ease;
+    }
+    .no-btn:hover { transform: rotate(5deg) scale(1.05); }
+
+    /* ── Final screen ── */
+    .final-emoji {
+      display: block; font-size: 5rem; margin-bottom: 12px;
+      animation: finalPop 0.6s cubic-bezier(0.34,1.8,0.64,1) both;
+    }
+    @keyframes finalPop {
+      from { transform: scale(0) rotate(-20deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    /* ── Confetti burst ── */
+    .confetti {
+      position: fixed; pointer-events: none; z-index: 9999;
+      animation: confettiFly var(--dur, 1s) ease-out forwards;
+      font-size: var(--sz, 1.5rem);
+    }
+    @keyframes confettiFly {
+      0%   { opacity: 1; transform: translate(0,0) rotate(0deg) scale(1); }
+      100% { opacity: 0; transform: translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(0.3); }
+    }
+
+    /* ── Festival rain on final screen ── */
+    .love-rain {
+      position: fixed; top: -60px;
+      pointer-events: none; z-index: 5;
+      animation: rainFall linear forwards;
+      font-size: var(--sz, 1.6rem);
+    }
+    @keyframes rainFall {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+      8%   { opacity: 1; }
+      90%  { opacity: 0.9; }
+      100% { transform: translateY(110vh) rotate(var(--rot)); opacity: 0; }
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- Background orbs -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+<div class="orb orb4"></div>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<!-- S1: Hey gorgeous -->
+<div class="card anim-in" id="s1">
+  <div class="steps">
+    <span class="dot active"></span><span class="dot"></span>
+    <span class="dot"></span><span class="dot"></span>
+  </div>
+  <div class="img-wrap">
+    <img class="card-img"
+      src="https://i.pinimg.com/originals/7a/23/e1/7a23e1691b212ef2675260dac6098716.png"
+      alt="Tom" />
+    <span class="mood">😍</span>
+  </div>
+  <h2>Hey Gorgeoous 😍</h2>
+  <div class="btns">
+    <button class="hello-btn" id="helloBtn">Hello 👋</button>
+  </div>
+</div>
+
+<!-- S2: Free tomorrow -->
+<div class="card hidden" id="s2">
+  <div class="steps">
+    <span class="dot done"></span><span class="dot active"></span>
+    <span class="dot"></span><span class="dot"></span>
+  </div>
+  <div class="img-wrap">
+    <img class="card-img" src="tom2.png"
+      onerror="this.onerror=null;this.src='https://i.pinimg.com/originals/7a/23/e1/7a23e1691b212ef2675260dac6098716.png'"
+      alt="Tom hopeful" />
+    <span class="mood">🥺</span>
+  </div>
+  <h2>Are you free tomorrow? 🗓️</h2>
+  <div class="btns">
+    <button class="yes-btn" id="yes2">Yes 💕</button>
+    <button class="no-btn"  id="no2">No</button>
+  </div>
+</div>
+
+<!-- S3: Tea date -->
+<div class="card hidden" id="s3">
+  <div class="steps">
+    <span class="dot done"></span><span class="dot done"></span>
+    <span class="dot active"></span><span class="dot"></span>
+  </div>
+  <div class="img-wrap">
+    <img class="card-img" src="tom3.png"
+      onerror="this.onerror=null;this.src='https://i.pinimg.com/originals/7a/23/e1/7a23e1691b212ef2675260dac6098716.png'"
+      alt="Tom excited" />
+    <span class="mood">☕</span>
+  </div>
+  <h2>Let's go for a tea date? ☕</h2>
+  <div class="btns">
+    <button class="yes-btn" id="yes3">Yes! ☕💕</button>
+    <button class="no-btn"  id="no3">No</button>
+  </div>
+</div>
+
+<!-- S4: Do you want me -->
+<div class="card hidden" id="s4">
+  <div class="steps">
+    <span class="dot done"></span><span class="dot done"></span>
+    <span class="dot done"></span><span class="dot active"></span>
+  </div>
+  <div class="img-wrap">
+    <img class="card-img" src="tom4.png"
+      onerror="this.onerror=null;this.src='https://i.pinimg.com/originals/7a/23/e1/7a23e1691b212ef2675260dac6098716.png'"
+      alt="Tom shy" />
+    <span class="mood">💕</span>
+  </div>
+  <h2>UMMM & Do you want me? 🥺</h2>
+  <div class="btns">
+    <button class="yes-btn" id="yes4">Yes 💕</button>
+    <button class="no-btn"  id="no4">No</button>
+  </div>
+</div>
+
+<!-- Final -->
+<div class="card hidden" id="sFinal">
+  <div class="steps">
+    <span class="dot done"></span><span class="dot done"></span>
+    <span class="dot done"></span><span class="dot done"></span>
+  </div>
+  <span class="final-emoji">🥂</span>
+  <div class="img-wrap">
+    <img class="card-img"
+      src="https://htfunny.com/wp-content/uploads/2023/03/Tom-and-love-in-the-movie-Tom-Jerry.jpg"
+      onerror="this.onerror=null;this.src='https://i.pinimg.com/originals/7a/23/e1/7a23e1691b212ef2675260dac6098716.png'"
+      alt="Tom in love" />
+    <span class="mood">❤️</span>
+  </div>
+  <h2>Then deal done! ❤️</h2>
+</div>
+
+<script>
+  /* ── Particles ───────────────────────────────────────────────── */
+  const particlesEl = document.getElementById('particles');
+  const pItems = ['❤️','💕','💖','🌸','✨','💫','🌷','💝','⭐','🎀'];
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('span');
+    p.className = 'p';
+    p.textContent = pItems[i % pItems.length];
+    p.style.left   = Math.random() * 100 + 'vw';
+    p.style.fontSize = (0.7 + Math.random() * 1.4) + 'rem';
+    p.style.animationDuration  = (6 + Math.random() * 10) + 's';
+    p.style.animationDelay     = (Math.random() * 12) + 's';
+    particlesEl.appendChild(p);
+  }
+
+  /* ── Confetti burst ──────────────────────────────────────────── */
+  const burstItems = ['❤️','💕','💖','💗','🌸','💝','✨','💫','🎉','🎊','🌷','⭐'];
+  function burst(x, y, count = 18) {
+    for (let i = 0; i < count; i++) {
+      const b = document.createElement('span');
+      b.className = 'confetti';
+      b.textContent = burstItems[Math.floor(Math.random() * burstItems.length)];
+      const angle = (i / count) * 360 + Math.random() * 20;
+      const dist  = 80 + Math.random() * 130;
+      b.style.setProperty('--dx',  (Math.cos(angle * Math.PI / 180) * dist) + 'px');
+      b.style.setProperty('--dy',  (Math.sin(angle * Math.PI / 180) * dist) + 'px');
+      b.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+      b.style.setProperty('--dur', (0.7 + Math.random() * 0.6) + 's');
+      b.style.setProperty('--sz',  (1.2 + Math.random() * 1.2) + 'rem');
+      b.style.left = x + 'px'; b.style.top = y + 'px';
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), 1400);
+    }
+  }
+
+  /* ── Screen transition ───────────────────────────────────────── */
+  function goTo(from, to, cb) {
+    from.classList.add('anim-out');
+    from.addEventListener('animationend', () => {
+      from.classList.add('hidden');
+      from.classList.remove('anim-out');
+      to.classList.remove('hidden');
+      void to.offsetWidth;
+      to.classList.add('anim-in');
+      to.addEventListener('animationend', () => to.classList.remove('anim-in'), { once: true });
+      if (cb) setTimeout(cb, 60);
+    }, { once: true });
+  }
+
+  /* ── Wild runaway No button ──────────────────────────────────── */
+  function makeRunaway(noEl, cardEl) {
+    let returnTimer = null;
+    let wiggleTimer = null;
+    let phase = 0;
+    let isFleeing = false;
+
+    function init() {
+      phase = 0;
+      isFleeing = false;
+      clearTimeout(returnTimer);
+      clearTimeout(wiggleTimer);
+      // Reset to normal static position inside .btns
+      noEl.classList.remove('fleeing');
+      noEl.style.cssText = '';
+    }
+
+    function goFixed() {
+      // Grab current position before switching to fixed
+      const r = noEl.getBoundingClientRect();
+      noEl.classList.add('fleeing');
+      noEl.style.left   = r.left + 'px';
+      noEl.style.top    = r.top  + 'px';
+      noEl.style.width  = r.width  + 'px';
+      noEl.style.height = r.height + 'px';
+      noEl.style.opacity = '1';
+      isFleeing = true;
+    }
+
+    function goHome() {
+      phase = 0;
+      isFleeing = false;
+      noEl.classList.remove('fleeing');
+      noEl.style.cssText = '';
+    }
+
+    function flee(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      clearTimeout(returnTimer);
+      clearTimeout(wiggleTimer);
+
+      // Switch to fixed on first flee
+      if (!isFleeing) goFixed();
+
+      phase++;
+      const m  = 14;
+      const w  = noEl.offsetWidth  || 90;
+      const h  = noEl.offsetHeight || 48;
+      const maxX = window.innerWidth  - w - m;
+      const maxY = window.innerHeight - h - m;
+
+      if (phase === 1) {
+        noEl.style.transition = 'left 0.75s cubic-bezier(0.34,1.5,0.64,1), top 0.75s cubic-bezier(0.34,1.5,0.64,1), transform 0.4s ease, opacity 0.3s';
+        noEl.style.left = (m + Math.random() * (maxX - m)) + 'px';
+        noEl.style.top  = (m + Math.random() * (maxY - m)) + 'px';
+
+      } else if (phase === 2) {
+        noEl.style.transition = 'left 0.75s cubic-bezier(0.34,1.5,0.64,1), top 0.75s cubic-bezier(0.34,1.5,0.64,1), transform 0.6s ease, opacity 0.3s';
+        noEl.style.transform = 'rotate(360deg) scale(1.1)';
+        noEl.style.left = (m + Math.random() * (maxX - m)) + 'px';
+        noEl.style.top  = (m + Math.random() * (maxY - m)) + 'px';
+        setTimeout(() => { noEl.style.transform = ''; }, 700);
+
+      } else if (phase === 3) {
+        noEl.style.transition = 'left 0.55s cubic-bezier(0.34,1.5,0.64,1), top 0.55s cubic-bezier(0.34,1.5,0.64,1), transform 0.4s, opacity 0.3s';
+        noEl.style.left = (m + Math.random() * (maxX - m)) + 'px';
+        noEl.style.top  = (m + Math.random() * (maxY - m)) + 'px';
+        setTimeout(() => {
+          noEl.style.left = (m + Math.random() * (maxX - m)) + 'px';
+          noEl.style.top  = (m + Math.random() * (maxY - m)) + 'px';
+        }, 600);
+
+      } else {
+        noEl.style.transition = 'left 0.4s cubic-bezier(0.34,1.8,0.64,1), top 0.4s cubic-bezier(0.34,1.8,0.64,1), transform 0.35s, opacity 0.3s';
+        let jumps = 0;
+        const maxJumps = 3 + Math.floor(Math.random() * 3);
+        const zigzag = setInterval(() => {
+          if (jumps >= maxJumps) { clearInterval(zigzag); return; }
+          noEl.style.left = (m + Math.random() * (maxX - m)) + 'px';
+          noEl.style.top  = (m + Math.random() * (maxY - m)) + 'px';
+          noEl.style.transform = `rotate(${Math.random()*60-30}deg) scale(${0.9+Math.random()*0.3})`;
+          jumps++;
+        }, 450);
+        wiggleTimer = setTimeout(() => {
+          clearInterval(zigzag);
+          noEl.style.transform = '';
+        }, 450 * maxJumps + 100);
+      }
+
+      // Return home after 3s
+      returnTimer = setTimeout(goHome, 3000);
+    }
+
+    noEl.addEventListener('mouseenter', flee);
+    noEl.addEventListener('touchstart', flee, { passive: false });
+
+    return init;
+  }
+
+  /* ── Wire screens ────────────────────────────────────────────── */
+  const [s1, s2, s3, s4, sFinal] = ['s1','s2','s3','s4','sFinal'].map(id => document.getElementById(id));
+  const [no2, no3, no4]          = ['no2','no3','no4'].map(id => document.getElementById(id));
+
+  const initNo2 = makeRunaway(no2, s2);
+  const initNo3 = makeRunaway(no3, s3);
+  const initNo4 = makeRunaway(no4, s4);
+
+  document.getElementById('helloBtn').addEventListener('click', e => {
+    burst(e.clientX, e.clientY, 14);
+    goTo(s1, s2, initNo2);
+  });
+
+  document.getElementById('yes2').addEventListener('click', e => {
+    burst(e.clientX, e.clientY);
+    initNo2(); // reset No2 back to static before transition
+    goTo(s2, s3, initNo3);
+  });
+
+  document.getElementById('yes3').addEventListener('click', e => {
+    burst(e.clientX, e.clientY);
+    initNo3();
+    goTo(s3, s4, initNo4);
+  });
+
+  /* ── Festival love rain ─────────────────────────────────────── */
+  const rainItems = ['❤️','💕','💖','💗','💝','💓','💞','💘','🌹','🌸','✨','💫','🎀','🌷','💋','🥰'];
+  let rainInterval = null;
+
+  function startFestivalRain() {
+    if (rainInterval) return;
+    let count = 0;
+    rainInterval = setInterval(() => {
+      count++;
+      const r = document.createElement('span');
+      r.className = 'love-rain';
+      r.textContent = rainItems[Math.floor(Math.random() * rainItems.length)];
+      const sz = 1.2 + Math.random() * 2;
+      const dur = 2.5 + Math.random() * 3;
+      r.style.setProperty('--sz',  sz + 'rem');
+      r.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+      r.style.left = (Math.random() * 100) + 'vw';
+      r.style.animationDuration = dur + 's';
+      r.style.animationDelay = (Math.random() * 0.8) + 's';
+      document.body.appendChild(r);
+      setTimeout(() => r.remove(), (dur + 1) * 1000);
+      // After 80 drops slow down to a gentle shower
+      if (count > 80) {
+        clearInterval(rainInterval);
+        rainInterval = setInterval(() => {
+          const r2 = document.createElement('span');
+          r2.className = 'love-rain';
+          r2.textContent = rainItems[Math.floor(Math.random() * rainItems.length)];
+          const sz2 = 1 + Math.random() * 1.5;
+          const dur2 = 3 + Math.random() * 3;
+          r2.style.setProperty('--sz',  sz2 + 'rem');
+          r2.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+          r2.style.left = (Math.random() * 100) + 'vw';
+          r2.style.animationDuration = dur2 + 's';
+          document.body.appendChild(r2);
+          setTimeout(() => r2.remove(), (dur2 + 1) * 1000);
+        }, 300);
+      }
+    }, 80);
+  }
+
+  document.getElementById('yes4').addEventListener('click', e => {
+    burst(e.clientX, e.clientY, 22);
+    initNo4();
+    goTo(s4, sFinal, () => {
+      setTimeout(() => burst(window.innerWidth / 2, window.innerHeight / 2, 30), 300);
+      setTimeout(() => burst(window.innerWidth / 3, window.innerHeight / 3, 16), 600);
+      setTimeout(() => burst(window.innerWidth * 0.7, window.innerHeight * 0.6, 16), 900);
+      setTimeout(startFestivalRain, 200);
+    });
+  });
+</script>
+</body>
+</html>
